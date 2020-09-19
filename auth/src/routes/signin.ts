@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.get("/api/users/signin", () => {
+router.post("/api/users/signin", () => {
 	console.log("akaka");
 });
 
