@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { currentUserRouter } from "./current-user";
+import { signInRouter } from "./signin";
+import { signOutRouter } from "./signout";
+import { signUpRouter } from "./signup";
+
+export const routers: Router[] = [
+	currentUserRouter,
+	signInRouter,
+	signOutRouter,
+	signUpRouter,
+];
