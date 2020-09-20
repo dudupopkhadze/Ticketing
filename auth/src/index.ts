@@ -4,11 +4,17 @@ import { json } from "body-parser";
 import { routers } from "./routes";
 import { errorHandler } from "./middlewares/error-hendler";
 import { NotFoundError } from "./errors/not-found-error";
+import cookieSession from "cookie-session";
 import mongoose from "mongoose";
 const app = express();
-
+app.set("trust proxy", true);
 const setUpExpressApp = async () => {
 	app.use(json());
+	app.use(
+		cookieSession({
+			signed: false,
+		})
+	);
 	routers.forEach(e => app.use(e));
 	app.all("*", () => {
 		throw new NotFoundError();
