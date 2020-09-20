@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 
 export interface IUserSchema {
-	_id: ObjectId;
+	id: ObjectId;
 	email: string;
 	password: string;
 }

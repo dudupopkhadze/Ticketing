@@ -3,6 +3,7 @@ import {
 	getClassForDocument,
 	getModelForClass,
 	pre,
+	modelOptions,
 } from "@typegoose/typegoose";
 import { AuthMongoDB } from "../db/mongodb";
 import { IUserSchema } from "../schemas/user";
@@ -15,7 +16,7 @@ import { PasswordService } from "../services/password";
 	}
 	next();
 })
-export class IUser implements Omit<IUserSchema, "_id"> {
+export class IUser implements Omit<IUserSchema, "id"> {
 	@prop()
 	email: string;
 
@@ -35,5 +36,13 @@ export const UserModel = getModelForClass(IUser, {
 		collection: "users",
 		timestamps: true,
 		minimize: false,
+		toJSON: {
+			transform(doc, ret) {
+				delete ret.password;
+				ret.id = ret._id;
+				delete ret._id;
+				delete ret.__v;
+			},
+		},
 	},
 });
