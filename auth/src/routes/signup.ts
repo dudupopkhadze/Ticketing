@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { UserModel } from "../core/models/user";
+import { BadRequestError } from "../errors/bad-request-error";
 import { RequestValidationError } from "../errors/request-validation-error";
 
 const router = express.Router();
@@ -8,7 +9,9 @@ const router = express.Router();
 router.post(
 	"/api/users/signup",
 	[
-		body("email").isEmail().withMessage("Email must be valid."),
+		body("email")
+			.isEmail()
+			.withMessage("Email must be valid."),
 		body("password")
 			.trim()
 			.isLength({ min: 4, max: 20 })
@@ -22,8 +25,7 @@ router.post(
 		const { email, password } = req.body;
 		const existingUser = await UserModel.findOne({ email });
 		if (existingUser) {
-			res.send({});
-			return;
+			throw new BadRequestError("Email in Use");
 		}
 		const createdUser = await UserModel.create({ email, password } as any);
 
