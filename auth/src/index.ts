@@ -9,7 +9,7 @@ const app = express();
 
 const setUpExpressApp = async () => {
 	app.use(json());
-	routers.forEach((e) => app.use(e));
+	routers.forEach(e => app.use(e));
 	app.all("*", () => {
 		throw new NotFoundError();
 	});

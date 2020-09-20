@@ -25,6 +25,7 @@ router.post(
 		const { email, password } = req.body;
 		const existingUser = await UserModel.findOne({ email });
 		if (existingUser) {
+			console.log("Sdsdd");
 			throw new BadRequestError("Email in Use");
 		}
 		const createdUser = await UserModel.create({ email, password } as any);
