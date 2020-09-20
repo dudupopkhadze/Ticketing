@@ -29,7 +29,7 @@ router.post(
 			throw new BadRequestError("Email in Use");
 		}
 		const createdUser = await UserModel.create({ email, password } as any);
-		const userJWT = jwt.sign(createdUser.toObject(), "blabla");
+		const userJWT = jwt.sign(createdUser.toObject(), process.env.JWT_KEY!);
 		(req as any).session = { jwt: userJWT };
 		res.send(createdUser);
 	}

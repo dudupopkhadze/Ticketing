@@ -17,6 +17,7 @@
 		"@types/mongoose": "^5.7.36",
 		"bson": "^4.1.0",
 		"cookie-session": "^1.4.0",
+		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-async-errors": "^3.1.1",
 		"express-validator": "^6.6.1",

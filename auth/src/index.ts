@@ -6,6 +6,9 @@ import { errorHandler } from "./middlewares/error-hendler";
 import { NotFoundError } from "./errors/not-found-error";
 import cookieSession from "cookie-session";
 import mongoose from "mongoose";
+
+require("dotenv").config();
+
 const app = express();
 app.set("trust proxy", true);
 const setUpExpressApp = async () => {
