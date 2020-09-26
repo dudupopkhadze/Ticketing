@@ -29,7 +29,7 @@ router.post(
 		const createdUser = await UserModel.create({ email, password } as any);
 		const userJWT = jwt.sign(createdUser.toObject(), process.env.JWT_KEY!);
 		(req as any).session = { jwt: userJWT };
-		res.send(createdUser);
+		res.status(201).send(createdUser);
 	}
 );
 
