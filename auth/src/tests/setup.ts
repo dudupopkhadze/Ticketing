@@ -1,5 +1,6 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { app } from "../app";
+import request from "supertest";
 
 import { AuthMongoDB } from "../core/db/mongodb";
 let mongo: any;
@@ -21,3 +22,21 @@ afterAll(async () => {
 	await AuthMongoDB.close();
 	process.env.MONGODB_TEST = undefined;
 });
+
+declare global {
+	// eslint-disable-next-line @typescript-eslint/no-namespace
+	namespace NodeJS {
+		interface Global {
+			getCookie(): Promise<string[]>;
+		}
+	}
+}
+
+global.getCookie = async () => {
+	const res = await request(app)
+		.post("/api/users/signup")
+		.send({ email: "test@test.com", password: "password" })
+		.expect(201);
+
+	return res.get("Set-Cookie");
+};
