@@ -1,41 +1,50 @@
 {
-	"compilerOptions": {
-		"baseUrl": "src",
-		"target": "es5",
-		"outDir": "build/dist",
-		"lib": ["dom", "dom.iterable", "esnext"],
-		"sourceMap": true,
-		"allowJs": true,
-		"skipLibCheck": true,
-		"esModuleInterop": false,
-		"rootDir": "src",
-		"allowSyntheticDefaultImports": true,
-		"strictPropertyInitialization": false,
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"module": "esnext",
-		"moduleResolution": "node",
-		"noImplicitAny": false,
-		"resolveJsonModule": true,
-		"strictNullChecks": true,
-		"suppressImplicitAnyIndexErrors": true,
-		"isolatedModules": true,
-		"noEmit": true,
-		"jsx": "preserve",
-		"noUnusedLocals": false,
-		"strictFunctionTypes": false,
-		"downlevelIteration": true,
-		"typeRoots": ["./node_modules/@types", "./src/@types"]
-	},
-	"include": ["src"],
-	"exclude": [
-		"node_modules",
-		"build",
-		"scripts",
-		"acceptance-tests",
-		"webpack",
-		"jest",
-		"src/setupTests.ts",
-		"src/@test-core"
-	]
+  "compilerOptions": {
+    "baseUrl": "src",
+    "target": "es5",
+    "outDir": "build/dist",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "sourceMap": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "rootDir": "src",
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "noUnusedLocals": false,
+    "strictFunctionTypes": false,
+    "downlevelIteration": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ]
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts",
+    "src/@test-core"
+  ]
 }

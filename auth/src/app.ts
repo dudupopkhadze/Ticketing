@@ -5,7 +5,7 @@ import { routers } from "./routes";
 import { errorHandler } from "./middlewares/error-hendler";
 import { NotFoundError } from "./errors/not-found-error";
 import cookieSession from "cookie-session";
-import mongoose from "mongoose";
+import cors from "cors";
 
 require("dotenv").config();
 
@@ -13,6 +13,7 @@ const app = express();
 app.set("trust proxy", true);
 const setUpExpressApp = () => {
 	app.use(json());
+	app.use(cors());
 	app.use(
 		cookieSession({
 			signed: false,

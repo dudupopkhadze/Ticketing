@@ -1,44 +1,53 @@
 import { useState } from "react";
-import { RefactorActionInfo } from "typescript";
-
-export default () => {
+import axios from "axios";
+const SignUp = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const handleEmailChange = e => {
-		setEmail(e.targer.value);
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
 	};
 
-	const handlePasswordChange = e => {
-		setPassword(e.targer.value);
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
 	};
 
-	const onSubmit = e => {
+	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log({ email, password });
+		axios
+			.post("http://localhost:3001/api/users/signup", {
+				email,
+				password,
+			})
+			.then(e => console.log(e))
+			.catch(e => console.log(e.response.data));
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
-			<div className="form-group">
-				<label>Email Address</label>
-				<input
-					type="email"
-					value={email}
-					onChange={handleEmailChange}
-					className="form-control"
-				/>
-			</div>
-			<div className="form-group">
-				<label>Email Address</label>
-				<input
-					type="email"
-					value={password}
-					onChange={handlePasswordChange}
-					className="form-control"
-				/>
-			</div>
-			<button className="btn btn-primary">Sign Up</button>
-		</form>
+		<div style={{ padding: "40px" }}>
+			<form onSubmit={onSubmit}>
+				<h1>Sign Up</h1>
+				<div className="form-group">
+					<label>Email Address</label>
+					<input
+						type="email"
+						value={email}
+						onChange={handleEmailChange}
+						className="form-control"
+					/>
+				</div>
+				<div className="form-group">
+					<label>Password</label>
+					<input
+						type="passwod"
+						value={password}
+						onChange={handlePasswordChange}
+						className="form-control"
+					/>
+				</div>
+				<button className="btn btn-primary">Sign Up</button>
+			</form>
+		</div>
 	);
 };
+export default SignUp;

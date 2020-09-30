@@ -12,7 +12,7 @@ const start = async () => {
 			useCreateIndex: true,
 		});
 
-		app.listen(3000, () => console.log("listening on 3000"));
+		app.listen(3001, () => console.log("listening on 3001"));
 	} catch (error) {
 		console.log(error);
 	}
