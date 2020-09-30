@@ -4,6 +4,9 @@
       "path": "auth"
     },
     {
+      "path": "client"
+    },
+    {
       "path": "infra"
     }
   ],
