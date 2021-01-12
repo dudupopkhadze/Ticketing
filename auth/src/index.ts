@@ -1,39 +1,29 @@
-import express from "express";
-import "express-async-errors";
-import { json } from "body-parser";
-import { routers } from "./routes";
-import { errorHandler } from "./middlewares/error-hendler";
-import { NotFoundError } from "./errors/not-found-error";
-import cookieSession from "cookie-session";
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-require("dotenv").config();
+import { app } from './app';
 
-const app = express();
-app.set("trust proxy", true);
-const setUpExpressApp = async () => {
-	app.use(json());
-	app.use(
-		cookieSession({
-			signed: false,
-		})
-	);
-	routers.forEach(e => app.use(e));
-	app.all("*", () => {
-		throw new NotFoundError();
-	});
-	app.use(errorHandler);
+const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY must be defined');
+  }
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI must be defined');
+  }
 
-	try {
-		await mongoose.connect("mongodb://localhost:27017/ticketing-auth", {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true,
-		});
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
+    console.log('Connected to MongoDb');
+  } catch (err) {
+    console.error(err);
+  }
 
-		app.listen(3000, () => console.log("listening on 3000"));
-	} catch (error) {
-		console.log(error);
-	}
+  app.listen(3000, () => {
+    console.log('Listening on port 3000!!!!!!!!');
+  });
 };
-setUpExpressApp();
+
+start();

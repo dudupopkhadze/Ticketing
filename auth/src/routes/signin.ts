@@ -1,46 +1,55 @@
-import express, { Request, Response } from "express";
-import { body } from "express-validator";
-import { UserModel } from "../core/models/user";
-import { PasswordService } from "../core/services/password";
-import { BadRequestError } from "../errors/bad-request-error";
-import { validateRequest } from "../middlewares/validate-request";
-import jwt from "jsonwebtoken";
+import express, { Request, Response } from 'express';
+import { body } from 'express-validator';
+import jwt from 'jsonwebtoken';
+import { validateRequest, BadRequestError } from '@sgtickets/common';
+
+import { Password } from '../services/password';
+import { User } from '../models/user';
 
 const router = express.Router();
 
 router.post(
-	"/api/users/signin",
-	[
-		body("email")
-			.isEmail()
-			.withMessage("Email must be valid."),
-		body("password")
-			.trim()
-			.notEmpty()
-			.withMessage("You must suppy a password"),
-	],
-	validateRequest,
-	async (req: Request, res: Response) => {
-		const { email, password } = req.body;
-		const curUser = await UserModel.findOne({ email });
-		const invalidError = new BadRequestError("Invalid Credentials");
-		if (!curUser) {
-			throw invalidError;
-		}
+  '/api/users/signin',
+  [
+    body('email').isEmail().withMessage('Email must be valid'),
+    body('password')
+      .trim()
+      .notEmpty()
+      .withMessage('You must supply a password'),
+  ],
+  validateRequest,
+  async (req: Request, res: Response) => {
+    const { email, password } = req.body;
 
-		const isCorrectPassword = await PasswordService.compare(
-			curUser.password,
-			password
-		);
-		if (!isCorrectPassword) {
-			throw invalidError;
-		}
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      throw new BadRequestError('Invalid credentials');
+    }
 
-		const userJWT = jwt.sign(curUser.toObject(), process.env.JWT_KEY!);
-		(req as any).session = { jwt: userJWT };
+    const passwordsMatch = await Password.compare(
+      existingUser.password,
+      password
+    );
+    if (!passwordsMatch) {
+      throw new BadRequestError('Invalid Credentials');
+    }
 
-		res.status(200).send(curUser);
-	}
+    // Generate JWT
+    const userJwt = jwt.sign(
+      {
+        id: existingUser.id,
+        email: existingUser.email,
+      },
+      process.env.JWT_KEY!
+    );
+
+    // Store it on session object
+    req.session = {
+      jwt: userJwt,
+    };
+
+    res.status(200).send(existingUser);
+  }
 );
 
-export { router as signInRouter };
+export { router as signinRouter };
